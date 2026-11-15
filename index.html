@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saturn — Next-Gen Game Utility</title>
+    <meta name="description" content="Saturn — Next-generation private gaming utility. Surgical Silent Aim with vector prediction, zero-FPS-drop skeleton ESP, smooth NoClip, and cloud configs.">
+    <link rel="icon" type="image/x-icon" href="saturn.ico">
+    <link rel="shortcut icon" href="favicon.ico">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        saturn: {
+                            bg: '#08080a',
+                            card: '#0e0e13',
+                            cardHover: '#13131a',
+                            border: 'rgba(255, 255, 255, 0.08)',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Global User-Select None: Prevent text selection on click & drag */
+        *, *::before, *::after {
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+            -webkit-user-drag: none;
+        }
+
+        /* Allow typing in form inputs */
+        input, textarea {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        /* Pure GPU acceleration and responsive zero-lag scrolling */
+        html {
+            background-color: #08080a;
+            color: #d1d5db;
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom minimal scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #08080a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1c1c24;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2e2e3a;
+        }
+
+        /* High-performance optimized Island (isolated compositing layer, no scroll lag) */
+        .card-island {
+            background: rgba(14, 14, 19, 0.82);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            contain: paint;
+            will-change: transform;
+        }
+
+        /* High-performance flat dark cards (0% GPU churn) */
+        .card-panel {
+            background-color: #0e0e13;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            contain: layout style;
+        }
+
+        .card-panel:hover {
+            background-color: #121219;
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        /* Silver heading gradient */
+        .silver-text {
+            background: linear-gradient(180deg, #ffffff 40%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-saturn-bg text-gray-300 font-sans relative overflow-x-hidden min-h-screen">
+
+    <!-- Floating Dynamic Island Header -->
+    <header class="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-5xl">
+        <div class="card-island px-5 sm:px-7 py-3 rounded-2xl flex items-center justify-between">
+            <!-- Brand Logo: Clean Icon + Saturn (not caps) -->
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="saturn.png" alt="Saturn Logo" class="w-7 h-7 object-contain filter drop-shadow group-hover:scale-105 transition-transform duration-150">
+                <span class="text-base font-semibold tracking-wide text-white">Saturn</span>
+            </a>
+
+            <!-- Nav Links (Desktop) -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                <a href="#features" class="flex items-center gap-2 hover:text-white transition-colors py-1">
+                    <i data-lucide="layers" class="w-4 h-4 text-gray-400"></i>
+                    <span>Features</span>
+                </a>
+                <a href="#pricing" class="flex items-center gap-2 hover:text-white transition-colors py-1">
+                    <i data-lucide="tag" class="w-4 h-4 text-gray-400"></i>
+                    <span>Pricing</span>
+                </a>
+                <a href="#status" class="flex items-center gap-2 hover:text-white transition-colors py-1">
+                    <i data-lucide="activity" class="w-4 h-4 text-gray-400"></i>
+                    <span>Status</span>
+                </a>
+                <a href="#faq" class="flex items-center gap-2 hover:text-white transition-colors py-1">
+                    <i data-lucide="help-circle" class="w-4 h-4 text-gray-400"></i>
+                    <span>FAQ</span>
+                </a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <a href="https://discord.gg/6pGhDrYmkZ" target="_blank" rel="noopener noreferrer" class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white border border-white/5 text-sm font-medium transition-colors">
+                    <i data-lucide="message-square" class="w-4 h-4 text-gray-300"></i>
+                    <span>Discord</span>
+                </a>
+                <a href="#pricing" class="px-4 py-2 rounded-xl font-semibold text-sm bg-white hover:bg-zinc-200 text-black shadow-sm transition-colors">
+                    Get Saturn
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10">
+        
+        <!-- Hero Section -->
+        <section class="pt-40 pb-28 lg:pt-52 lg:pb-36 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center relative">
+            <!-- Main Heading -->
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-5xl mx-auto leading-[1.1] mb-6">
+                Absolute Control.<br>
+                <span class="silver-text">Flawless Performance.</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="max-w-2xl mx-auto text-base sm:text-lg text-gray-400 mb-10 leading-relaxed font-normal">
+                Next-generation private gaming utility built with surgical precision: discreet Silent Aim with vector prediction, zero-FPS-drop skeleton ESP, smooth NoClip, and cloud configurations.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+                <a href="#pricing" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-base shadow-sm transition-colors flex items-center justify-center gap-2">
+                    <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
+                    <span>Access from $1</span>
+                </a>
+                <a href="https://discord.gg/6pGhDrYmkZ" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-3.5 rounded-xl card-panel hover:bg-white/10 text-white font-medium text-base flex items-center justify-center gap-2 transition-colors">
+                    <i data-lucide="message-square" class="w-4 h-4 text-gray-400"></i>
+                    <span>Join Discord Community</span>
+                </a>
+            </div>
+
+            <!-- Trust / Stats Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="card-panel p-5 rounded-2xl text-center">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mb-1">0 Bans</div>
+                    <div class="text-xs text-gray-400 font-medium">Injection Security</div>
+                </div>
+                <div class="card-panel p-5 rounded-2xl text-center">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mb-1">> 14,200</div>
+                    <div class="text-xs text-gray-400 font-medium">Active Players</div>
+                </div>
+                <div class="card-panel p-5 rounded-2xl text-center">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mb-1">&lt; 0.2 ms</div>
+                    <div class="text-xs text-gray-400 font-medium">Overlay Latency</div>
+                </div>
+                <div class="card-panel p-5 rounded-2xl text-center">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono mb-1">99.98%</div>
+                    <div class="text-xs text-gray-400 font-medium">Server Uptime</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Showcase Grid -->
+        <section id="features" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-zinc-500 text-xs font-mono tracking-widest uppercase font-bold">Architecture & Features</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-3">Engineered for Total Superiority</h2>
+                <p class="text-gray-400 mt-4 text-base">
+                    Every line of code is optimized for zero gameplay impact, instantaneous execution, and maximum stealth.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="card-panel p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform">
+                        <i data-lucide="crosshair" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Surgical Silent Aim</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Direct raycast override with adaptive FOV angles. Projectiles hit the target seamlessly without unnatural camera flicks.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-mono text-gray-400">
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Vector Prediction</span>
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">0-100% Hit Chance</span>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="card-panel p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform">
+                        <i data-lucide="eye" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Advanced ESP & Skeletons</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Millisecond-accurate visual feeds: R6 & R15 bone joints, health bars, distances, look-direction snaplines, and player tags.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-mono text-gray-400">
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Bone Skeleton</span>
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Snaplines</span>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="card-panel p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform">
+                        <i data-lucide="shield" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Kernel-Level Stealth</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Multi-layered evasion against server-side and client-side memory integrity checks. Thread isolation and footprint scrubbing.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-mono text-gray-400">
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Stream Proof</span>
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Anti-Screen</span>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="card-panel p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform">
+                        <i data-lucide="zap" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Player Physics & NoClip</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        SpeedHack velocity scaling, air jump mechanics, and smooth collision phasing for unrestricted map mobility.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-mono text-gray-400">
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Speed Multiplier</span>
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Smooth NoClip</span>
+                    </div>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="card-panel p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform">
+                        <i data-lucide="cloud" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Cloud Config Profiles</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Synchronize your custom presets across any machine in one click. Share setups with teammates via short alphanumeric share codes.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-mono text-gray-400">
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Auto Sync</span>
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Share Codes</span>
+                    </div>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="card-panel p-8 rounded-2xl relative overflow-hidden group">
+                    <div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">0% Performance Loss</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Direct hardware-accelerated DirectX rendering pipeline. Maintain peak framerates even on low-end hardware configurations.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-mono text-gray-400">
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">DirectX 11/12</span>
+                        <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Low-End PC Ready</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section with FunPay Purchase Links ($1, $3, $5) -->
+        <section id="pricing" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-zinc-500 text-xs font-mono tracking-widest uppercase font-bold">Subscription Plans</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-3">Choose Your Access Tier</h2>
+                <p class="text-gray-400 mt-4 text-base">
+                    Instant automated license key delivery upon payment confirmation. Loader is ready in under 30 seconds.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+                
+                <!-- Plan: 7 Days ($1) -> https://funpay.com/lots/offer?id=81169880 -->
+                <div class="card-panel rounded-2xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono text-gray-400 uppercase tracking-wider font-semibold">Weekly Access</span>
+                            <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-white/5 text-gray-300">7 days</span>
+                        </div>
+                        <div class="flex items-baseline gap-2 mb-6">
+                            <span class="text-4xl font-extrabold text-white">$1</span>
+                            <span class="text-sm text-gray-400">/ 7 days</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-8">Ideal for testing all features and tuning your configs for a full week.</p>
+                        
+                        <div class="space-y-3.5 mb-8 text-sm text-gray-300">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Full access to all modules</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Silent Aim & Skeleton ESP</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Instant auto-injector</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Cloud config storage</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://funpay.com/lots/offer?id=81169880" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2">
+                        <span>Get 7 Days ($1)</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Plan: 30 Days ($3 - Popular) -> https://funpay.com/lots/offer?id=81169995 -->
+                <div class="card-panel rounded-2xl p-8 flex flex-col justify-between relative border-white/25 bg-[#111117] scale-105 z-10 shadow-2xl">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3.5 py-0.5 rounded-full bg-white text-black text-[11px] font-bold uppercase tracking-wider">
+                        Best Value
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-4 mt-2">
+                            <span class="text-xs font-mono text-white uppercase tracking-wider font-bold">Monthly Access</span>
+                            <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-white/10 text-white border border-white/15">30 days</span>
+                        </div>
+                        <div class="flex items-baseline gap-2 mb-6">
+                            <span class="text-4xl font-extrabold text-white">$3</span>
+                            <span class="text-sm text-gray-400">/ 30 days</span>
+                        </div>
+                        <p class="text-sm text-gray-300 mb-8">The daily driver for dedicated players: regular build updates, configs, and full support.</p>
+                        
+                        <div class="space-y-3.5 mb-8 text-sm text-gray-200">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>All Saturn modules & features</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Unlimited cloud configs</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>1 Free HWID Reset</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Priority Discord support</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://funpay.com/lots/offer?id=81169995" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
+                        <span>Get 30 Days ($3)</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Plan: Lifetime ($5) -> https://funpay.com/lots/offer?id=81132174 -->
+                <div class="card-panel rounded-2xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono text-gray-400 uppercase tracking-wider font-semibold">Lifetime Access</span>
+                            <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-white/5 text-gray-300 border border-white/10">Lifetime</span>
+                        </div>
+                        <div class="flex items-baseline gap-2 mb-6">
+                            <span class="text-4xl font-extrabold text-white">$5</span>
+                            <span class="text-sm text-gray-400">one-time</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-8">Pay once, own forever. Unrestricted access to all current and future versions.</p>
+                        
+                        <div class="space-y-3.5 mb-8 text-sm text-gray-300">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Lifetime unrestricted access</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>All future updates included</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Unlimited HWID resets</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>VIP role & closed beta access</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://funpay.com/lots/offer?id=81132174" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2">
+                        <span>Get Lifetime ($5)</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- System Status & Monitor -->
+        <section id="status" class="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+            <div class="card-panel rounded-2xl p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+                    <div>
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i data-lucide="activity" class="w-5 h-5 text-gray-300"></i>
+                            <span>Saturn Infrastructure Monitor</span>
+                        </h3>
+                        <p class="text-xs text-gray-400 mt-1">Live telemetry and operational status across all core services</p>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs font-mono px-3 py-1.5 rounded-lg bg-white/5 text-gray-200 border border-white/10">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <span>All Systems Operational</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-6">
+                    <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                        <div class="text-xs text-gray-400">Protection Status</div>
+                        <div class="text-sm font-bold text-emerald-400 mt-1 flex items-center gap-1.5">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i> Undetected
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                        <div class="text-xs text-gray-400">Loader & Injector</div>
+                        <div class="text-sm font-bold text-white mt-1 flex items-center gap-1.5">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-white"></i> Online (0.04s)
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                        <div class="text-xs text-gray-400">Cloud Network</div>
+                        <div class="text-sm font-bold text-white mt-1 flex items-center gap-1.5">
+                            <i data-lucide="server" class="w-4 h-4 text-white"></i> 100% Operational
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                        <div class="text-xs text-gray-400">Game Client</div>
+                        <div class="text-sm font-bold text-white mt-1 flex items-center gap-1.5">
+                            <i data-lucide="cpu" class="w-4 h-4 text-white"></i> Fully Supported
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+            <div class="text-center mb-14">
+                <span class="text-zinc-500 text-xs font-mono tracking-widest uppercase font-bold">Frequently Asked Questions</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Questions & Answers</h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <div class="card-panel rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(1)" class="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-white/[0.02]">
+                        <span class="font-semibold text-white text-base">How quickly will I receive my license key after payment?</span>
+                        <i id="faq-icon-1" data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-answer-1" class="hidden px-5 pb-5 text-sm text-gray-400 leading-relaxed border-t border-white/5 pt-3">
+                        Delivery is fully automated and instantaneous upon transaction confirmation. Your activation license key and direct download link for Saturn Loader are delivered immediately.
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="card-panel rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(2)" class="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-white/[0.02]">
+                        <span class="font-semibold text-white text-base">Is Saturn safe for my primary account?</span>
+                        <i id="faq-icon-2" data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-answer-2" class="hidden px-5 pb-5 text-sm text-gray-400 leading-relaxed border-t border-white/5 pt-3">
+                        Saturn utilizes an isolated driver-assisted architecture that avoids crude external memory hooks, keeping detection vectors to an absolute minimum. We maintain an undetected record across all seasons.
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="card-panel rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(3)" class="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-white/[0.02]">
+                        <span class="font-semibold text-white text-base">What happens when the game rolls out an update?</span>
+                        <i id="faq-icon-3" data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-answer-3" class="hidden px-5 pb-5 text-sm text-gray-400 leading-relaxed border-t border-white/5 pt-3">
+                        Our automated cloud offsets pipeline updates structures within minutes of any game patch. The client updates seamlessly without requiring manual reinstallation.
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="card-panel rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(4)" class="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-white/[0.02]">
+                        <span class="font-semibold text-white text-base">Which operating systems are supported?</span>
+                        <i id="faq-icon-4" data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-answer-4" class="hidden px-5 pb-5 text-sm text-gray-400 leading-relaxed border-t border-white/5 pt-3">
+                        Supports Windows 10 and Windows 11 (all current 64-bit builds). No custom BIOS modifications, disablements, or virtual machines required.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-saturn-border py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-gray-500 text-sm">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <img src="saturn.png" alt="Saturn" class="w-6 h-6 object-contain">
+                <span class="text-white font-semibold tracking-wide">Saturn</span>
+                <span class="text-xs text-gray-600">© 2026. All rights reserved.</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm">
+                <a href="https://discord.gg/6pGhDrYmkZ" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-1.5">
+                    <i data-lucide="message-square" class="w-4 h-4"></i> Discord
+                </a>
+                <a href="#status" class="hover:text-white transition-colors">Status</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        // FAQ Toggle Logic
+        function toggleFaq(id) {
+            const ans = document.getElementById(`faq-answer-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            if (ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                ans.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+</body>
+</html>
