@@ -128,6 +128,10 @@
                     <i data-lucide="layers" class="w-4 h-4 text-gray-400"></i>
                     <span>Features</span>
                 </a>
+                <a href="#script" class="flex items-center gap-2 hover:text-white transition-colors py-1">
+                    <i data-lucide="terminal" class="w-4 h-4 text-gray-400"></i>
+                    <span>Script</span>
+                </a>
                 <a href="#pricing" class="flex items-center gap-2 hover:text-white transition-colors py-1">
                     <i data-lucide="tag" class="w-4 h-4 text-gray-400"></i>
                     <span>Pricing</span>
@@ -279,6 +283,83 @@
                         <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">Streamproof Mode</span>
                         <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5">DirectX 11 Native</span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Script Section with Buy Key & Free Key (24h) -->
+        <section id="script" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative border-t border-white/5">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-zinc-500 text-xs font-mono tracking-widest uppercase font-bold">Roblox / Luau Edition</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-3">Saturn Script Access</h2>
+                <p class="text-gray-400 mt-4 text-base">
+                    Choose between paid uninterrupted access starting at $1 or generate a free 24-hour key through verified ad-gateways.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
+                <!-- Option 1: Buy Key (from $1) -->
+                <div class="card-panel rounded-2xl p-8 flex flex-col justify-between border-white/10 hover:border-white/20 transition-all">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono uppercase tracking-wider px-2.5 py-1 rounded bg-white/10 text-white font-semibold">Premium • Instant</span>
+                            <span class="text-xs text-zinc-400 font-mono">No Checkpoints</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Buy Key (from $1)</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            Instant license key delivery with zero waiting time and no ad tasks. Available for 7 Days, 30 Days, or Lifetime.
+                        </p>
+                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Zero linkvertise / ad tasks</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Instant automatic FunPay delivery</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Fast loader auto-login & priority updates</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('modal-buy-key')" class="w-full py-3.5 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                        <span>Select Period (from $1)</span>
+                    </button>
+                </div>
+
+                <!-- Option 2: Free Key (24h) -->
+                <div class="card-panel rounded-2xl p-8 flex flex-col justify-between border-white/10 hover:border-white/20 transition-all">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono uppercase tracking-wider px-2.5 py-1 rounded bg-white/10 text-white font-semibold">Free • 24 Hours</span>
+                            <span class="text-xs text-zinc-400 font-mono">Daily Access</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Free Key (24h)</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            Complete a brief sponsored checkpoint on LootLabs or Work.ink to generate your free 24-hour Saturn license key.
+                        </p>
+                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>100% Free daily access</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Choice between LootLabs and Work.ink</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                <span>Instant key generation upon completion</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('modal-free-key')" class="w-full py-3.5 rounded-xl bg-[#171720] hover:bg-[#20202c] text-white border border-white/15 font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="key" class="w-4 h-4"></i>
+                        <span>Get Free Key</span>
+                    </button>
                 </div>
             </div>
         </section>
@@ -494,6 +575,185 @@
         </div>
     </footer>
 
+    <!-- Modal 1: Buy Key (Period Selection) -->
+    <div id="modal-buy-key" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden" onclick="handleBackdropClick(event, 'modal-buy-key')">
+        <div class="bg-[#0e0e13] border border-white/10 rounded-2xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-white">Choose Subscription Period</h3>
+                    <p class="text-xs text-gray-400 mt-1">Instant delivery upon payment on FunPay</p>
+                </div>
+                <button onclick="closeModal('modal-buy-key')" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3.5">
+                <!-- 7 Days ($1) -->
+                <a href="https://funpay.com/lots/offer?id=81169880" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/[0.07] hover:border-white/20 transition-all duration-150 group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 group-hover:text-white transition-colors">
+                            <i data-lucide="clock" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-semibold text-white">7 Days Access</div>
+                            <div class="text-xs text-gray-400">Weekly pass • Instant key</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-bold text-white font-mono">$1</span>
+                        <div class="px-3 py-1.5 rounded-lg bg-white group-hover:bg-zinc-200 text-black text-xs font-bold transition-colors">
+                            Buy
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 30 Days ($3) -->
+                <a href="https://funpay.com/lots/offer?id=81169995" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/[0.07] hover:border-white/20 transition-all duration-150 group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 group-hover:text-white transition-colors">
+                            <i data-lucide="zap" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-semibold text-white">30 Days Access</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-gray-300 font-medium uppercase">Popular</span>
+                            </div>
+                            <div class="text-xs text-gray-400">Full month pass • Best value</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-bold text-white font-mono">$3</span>
+                        <div class="px-3 py-1.5 rounded-lg bg-white group-hover:bg-zinc-200 text-black text-xs font-bold transition-colors">
+                            Buy
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Lifetime ($5) -->
+                <a href="https://funpay.com/lots/offer?id=81132174" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/[0.07] hover:border-white/20 transition-all duration-150 group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 group-hover:text-white transition-colors">
+                            <i data-lucide="infinity" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-semibold text-white">Lifetime Access</div>
+                            <div class="text-xs text-gray-400">Permanent license • All updates</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-bold text-white font-mono">$5</span>
+                        <div class="px-3 py-1.5 rounded-lg bg-white group-hover:bg-zinc-200 text-black text-xs font-bold transition-colors">
+                            Buy
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Free Key (Platform Selection) -->
+    <div id="modal-free-key" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden" onclick="handleBackdropClick(event, 'modal-free-key')">
+        <div class="bg-[#0e0e13] border border-white/10 rounded-2xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-white">Select Free Key Gateway</h3>
+                    <p class="text-xs text-gray-400 mt-1">Complete a short checkpoint to receive your 24h key</p>
+                </div>
+                <button onclick="closeModal('modal-free-key')" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <!-- LootLabs Gateway -->
+                <div class="p-5 rounded-xl bg-white/[0.02] border border-white/[0.07] hover:bg-white/[0.06] hover:border-white/20 transition-all duration-150 flex flex-col justify-between group">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 group-hover:text-white transition-colors">
+                                <i data-lucide="link" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-base font-bold text-white">LootLabs Gateway</h4>
+                                <span class="text-xs text-zinc-400 font-mono">Fast Gateway • 2 Steps</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">
+                        Complete 2 short sponsored tasks. Returns immediately with your 24-hour Saturn license key.
+                    </p>
+                    <a id="lootlabs-link" href="https://loot-link.com/s?57FEfJju" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-lg bg-white hover:bg-zinc-200 text-black font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2">
+                        <span>Continue with LootLabs</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+
+                <!-- Work.ink Gateway -->
+                <div class="p-5 rounded-xl bg-white/[0.02] border border-white/[0.07] hover:bg-white/[0.06] hover:border-white/20 transition-all duration-150 flex flex-col justify-between group">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 group-hover:text-white transition-colors">
+                                <i data-lucide="layers" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-base font-bold text-white">Work.ink Gateway</h4>
+                                <span class="text-xs text-zinc-400 font-mono">Clean Gateway • 2 Steps</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">
+                        Clean task gateway with simple steps and instant key redirect upon completion.
+                    </p>
+                    <a id="workink-link" href="https://work.ink/3b1B/saturn-script-free-24h-key" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-lg bg-white hover:bg-zinc-200 text-black font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2">
+                        <span>Continue with Work.ink</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Key Generated Success (Opens automatically on #key=...) -->
+    <div id="modal-key-success" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden" onclick="handleBackdropClick(event, 'modal-key-success')">
+        <div class="bg-[#0e0e13] border border-white/10 rounded-2xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex items-center justify-between mb-5">
+                <div>
+                    <span class="text-[11px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-white/10 text-white font-semibold">24-Hour Access Granted</span>
+                    <h3 class="text-2xl font-bold text-white mt-1.5">Your License Key</h3>
+                </div>
+                <button onclick="closeModal('modal-key-success')" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-gray-400 mb-4 leading-relaxed">
+                Your free key is registered on the auth server. Copy and paste it into Saturn Loader to initialize your 24-hour session.
+            </p>
+
+            <div class="space-y-3">
+                <div class="relative">
+                    <input id="generated-key-box" type="text" readonly value="SATURN-XXXX-XXXX-XXXX" class="w-full bg-[#13131b] border border-white/20 rounded-xl py-3.5 px-4 text-center font-mono font-bold text-base text-white tracking-wider outline-none select-all" onclick="this.select()">
+                </div>
+
+                <button id="copy-key-btn" onclick="copyGeneratedKey()" class="w-full py-3.5 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                    <span id="copy-key-text">Copy Key</span>
+                </button>
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-white/5 text-xs text-gray-500 space-y-1.5">
+                <div class="flex items-center gap-2 text-gray-400">
+                    <i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>
+                    <span>Hardware lock (HWID) binds automatically on first launch.</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-400">
+                    <i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>
+                    <span>Loader auto-saves the key for 24 hours.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Interactive Scripts -->
     <script>
         // Init Lucide Icons
@@ -511,6 +771,105 @@
                 icon.style.transform = 'rotate(0deg)';
             }
         }
+
+        // Modal Handlers
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) {
+                m.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                lucide.createIcons();
+            }
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) {
+                m.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function handleBackdropClick(event, id) {
+            if (event.target.id === id) {
+                closeModal(id);
+            }
+        }
+
+        function handleGatewayClick(platform, event) {
+            const href = event.currentTarget.getAttribute('href');
+            if (href === '#lootlabs' || href === '#workink' || !href || href.startsWith('#')) {
+                event.preventDefault();
+                alert(`${platform} gateway ссылка будет подключена сразу после добавления кампании.`);
+            }
+        }
+
+        function copyGeneratedKey() {
+            const keyInput = document.getElementById('generated-key-box');
+            const btnText = document.getElementById('copy-key-text');
+            if (!keyInput) return;
+
+            const textToCopy = keyInput.value;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    if (btnText) {
+                        btnText.innerText = 'Copied to Clipboard!';
+                        setTimeout(() => { btnText.innerText = 'Copy Key'; }, 2000);
+                    }
+                }).catch(() => {
+                    keyInput.select();
+                    document.execCommand('copy');
+                    if (btnText) {
+                        btnText.innerText = 'Copied to Clipboard!';
+                        setTimeout(() => { btnText.innerText = 'Copy Key'; }, 2000);
+                    }
+                });
+            } else {
+                keyInput.select();
+                document.execCommand('copy');
+                if (btnText) {
+                    btnText.innerText = 'Copied to Clipboard!';
+                    setTimeout(() => { btnText.innerText = 'Copy Key'; }, 2000);
+                }
+            }
+        }
+
+        function checkKeyHash() {
+            const hash = window.location.hash || '';
+            if (!hash) return;
+
+            let key = '';
+            const keyMatch = hash.match(/key=([A-Za-z0-9\-]+)/i);
+            if (keyMatch) {
+                key = keyMatch[1];
+            } else {
+                const saturnMatch = hash.match(/#(SATURN-[A-Za-z0-9\-]+)/i);
+                if (saturnMatch) {
+                    key = saturnMatch[1];
+                }
+            }
+
+            if (key) {
+                const keyInput = document.getElementById('generated-key-box');
+                if (keyInput) {
+                    keyInput.value = key;
+                }
+                openModal('modal-key-success');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', checkKeyHash);
+        window.addEventListener('hashchange', checkKeyHash);
+        checkKeyHash();
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('modal-buy-key');
+                closeModal('modal-free-key');
+                closeModal('modal-key-success');
+            }
+        });
     </script>
 </body>
 </html>
